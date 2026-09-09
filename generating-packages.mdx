@@ -1,5 +1,5 @@
 ---
-title: "How to Generate a .wgo Update Package for W-G-O"
+title: "How to Generate a .wgo Update Package for W-G-O NetNavi"
 sidebarTitle: "Generating Packages"
 description: "Step-by-step instructions for creating a valid .wgo update package for W-G-O NetNavi — for AI assistants and parents who manage XP data manually."
 ---
@@ -70,18 +70,26 @@ Generating a `.wgo` package is the primary way to push a daily update into W-G-O
   </Step>
 
   <Step title="Pack the .wgo archive">
-    Assemble the archive using any ZIP tool:
+    Assemble the archive using any ZIP tool. From the command line, run the following two commands from the folder that contains your files:
 
-    1. Place `manifest.json` and `data.json` directly at the root of a new ZIP archive — do **not** wrap them in a named subfolder.
-    2. If you are including mission images, create an `images/` subfolder inside the ZIP and add the image files there. Make sure each `imageRef` field in `data.json` exactly matches the relative path (for example, `"images/wallas_bobs_goods_2026-09-07.jpg"`).
-    3. If you are replacing an avatar, add `wallas.glb` and/or `melynna.glb` at the root level, and set the corresponding `includes` flags to `true` in `manifest.json`.
-    4. Save the archive, then **rename the file extension from `.zip` to `.wgo`** (for example, `daily-update-20260907.wgo`).
+    ```bash
+    zip -r daily-update-20260907.zip manifest.json data.json images/
+    mv daily-update-20260907.zip daily-update-20260907.wgo
+    ```
 
-    The resulting file is your complete `.wgo` package.
+    If you are not including an `images/` folder, omit it from the `zip` command. If you are bundling avatar models, add `wallas.glb` and/or `melynna.glb` to the argument list.
+
+    A few rules to keep in mind:
+
+    - `manifest.json` and `data.json` must sit at the **root** of the archive — do **not** wrap them in a named subfolder.
+    - Image files must go inside the `images/` subfolder and each `imageRef` in `data.json` must match the relative path exactly (for example, `"images/wallas_bobs_goods_2026-09-07.jpg"`).
+    - Avatar `.glb` files must also sit at the root level, with the corresponding `includes` flags set to `true` in `manifest.json`.
+
+    The resulting `.wgo` file is your complete package, ready to import.
   </Step>
 
   <Step title="Send to device">
-    Transfer the `.wgo` file to the Android device using any convenient method — email attachment, a messaging app, ADB file push, or a direct file transfer app all work equally well.
+    Transfer the `.wgo` file to the Android device using any convenient method — email attachment, a messaging app, or a direct file transfer app all work equally well.
 
     Once the file is on the device:
 

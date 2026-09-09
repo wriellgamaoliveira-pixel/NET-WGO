@@ -1,27 +1,27 @@
 ---
-title: "3D Avatars in W-G-O NetNavi: GLB/GLTF Support"
+title: "3D Avatars in W-G-O NetNavi: GLB Format and Animations"
 sidebarTitle: "Avatar Overview"
-description: "W-G-O NetNavi renders 3D GLB/GLTF avatars for Wallas and Melynna using Filament. Learn about animation mapping, fallbacks, and model requirements."
+description: "W-G-O NetNavi renders 3D GLB/GLTF avatars for Wallas and Melynna. Learn about animation clip mapping, fallback behavior, and model requirements."
 ---
 
-W-G-O NetNavi brings Wallas and Melynna to life using fully 3D avatars rendered in real time on Android via the Filament engine and SceneView. Each character occupies its own independent avatar slot, so you can customize Wallas and Melynna separately — swapping, updating, or restoring models at any time without affecting the other character.
+W-G-O NetNavi brings Wallas and Melynna to life using fully 3D avatars rendered in real time on your Android device. Each character occupies its own independent avatar slot, so you can customize Wallas and Melynna separately — swapping, updating, or restoring models at any time without affecting the other character.
 
 ## Character Themes
 
 Each character has a dedicated color theme that carries through the entire avatar experience. The glowing platform beneath the character's feet pulses in that character's signature color, giving the Status screen a vibrant, personalized look.
 
 <CardGroup cols={2}>
-  <Card title="Wallas" icon="circle" iconType="solid" color="#3B82F6">
+  <Card title="Wallas" icon="circle" iconType="solid" color="#15a8ff">
     Wallas uses the **blue** color theme. His avatar platform glows blue, and his UI accents reflect that palette throughout the app.
   </Card>
-  <Card title="Melynna" icon="circle" iconType="solid" color="#EC4899">
+  <Card title="Melynna" icon="circle" iconType="solid" color="#ff4fc3">
     Melynna uses the **pink** color theme. Her avatar platform glows pink, and her UI accents follow the same palette.
   </Card>
 </CardGroup>
 
 ## Avatar Model Format
 
-W-G-O NetNavi loads character models in the **GLB** (binary GLTF) or **GLTF** format — the industry-standard container for real-time 3D assets. The app uses Android's SceneView library backed by Google's Filament rendering engine, which means your models get physically-based rendering (PBR), dynamic lighting, and smooth animation playback on supported devices.
+W-G-O NetNavi loads character models in the **GLB** (binary GLTF) or **GLTF** format — the industry-standard container for real-time 3D assets. The app renders models with physically-based lighting, which means your custom model's materials, textures, and animations all display accurately on supported Android devices.
 
 <Note>
   Your GLB file must be **self-contained with all textures embedded** inside the binary. External texture references (e.g., separate `.png` or `.jpg` files) are not resolved by the importer and will result in an untextured or invisible model.
@@ -61,7 +61,7 @@ Not every 3D tool exports clean, lowercase clip names. If your GLB uses names li
     Use `.glb` (binary GLTF) whenever possible. A single `.glb` file keeps everything — geometry, materials, textures, and animations — in one portable package.
   </Accordion>
   <Accordion title="Textures" icon="image">
-    Embed all textures directly in the GLB. External texture files are not loaded. PBR materials (base color, metallic-roughness, normal map) are fully supported by the Filament renderer.
+    Embed all textures directly in the GLB. External texture files are not loaded. Standard PBR materials — including base color, metallic-roughness, and normal maps — are fully supported.
   </Accordion>
   <Accordion title="Animations" icon="play">
     Name your animation clips using the keywords listed in the table above (`idle`, `walk`, `run`, `jump`, `crouch`, `wave`, `sleep`, `celebrate`). Fuzzy matching handles common prefixes like `Armature|`.

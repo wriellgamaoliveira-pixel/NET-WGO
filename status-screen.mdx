@@ -1,5 +1,5 @@
 ---
-title: "Status Screen: Your Hero's XP Dashboard"
+title: "Status Screen: Check Your Hero XP, Level, and Avatar"
 sidebarTitle: "Status Screen"
 description: "The W-G-O NetNavi Status Screen shows each hero's XP, level, progress bar, 3D avatar, and available animations in one glanceable dashboard."
 ---
@@ -19,7 +19,7 @@ At the very top of the screen, two **character selector tabs** let you jump betw
   </Card>
 </CardGroup>
 
-The screen refreshes immediately when you switch tabs, pulling the selected hero's data from the local database.
+The screen refreshes immediately when you switch tabs, loading the selected hero's stats, avatar, and history.
 
 ---
 
@@ -83,7 +83,7 @@ The **stats panel** on the right side of the screen displays your hero's current
 <ResponseField name="Próximo Nível" type="integer">
   The **XP threshold** required to reach the next level. This is always calculated as:
 
-  ```
+  ```text
   Next Level XP = (Current Level × 1000) + 1000
   ```
 
@@ -98,7 +98,7 @@ Directly below the stats panel, the **progress bar** shows how far your hero has
 
 The bar fills according to this formula:
 
-```
+```text
 Progress = (XP mod 1000) / 1000
 ```
 

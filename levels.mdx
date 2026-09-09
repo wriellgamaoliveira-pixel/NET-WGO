@@ -1,5 +1,5 @@
 ---
-title: "Level System: How Heroes Grow in W-G-O NetNavi"
+title: "Level System: How Your Hero Grows in W-G-O NetNavi"
 sidebarTitle: "Levels"
 description: "Learn how the W-G-O NetNavi level system works. Every 1,000 XP earns a new level, starting from Level 0 Iniciante. Track progress with the XP bar."
 ---
@@ -10,7 +10,7 @@ Every hero in W-G-O NetNavi starts their journey at the same place: **Level 0 �
 
 The level system is straightforward: for every **1,000 XP** you earn, your hero gains **one level**. Your current level is always calculated from your total XP using this formula:
 
-```
+```text
 level = floor(totalXP / 1000)
 ```
 
@@ -20,7 +20,7 @@ This means it doesn't matter how you spread your XP earnings over time — your 
 
 The progress bar on your hero's profile shows how far you are through your current level. It fills up based on the XP you've earned since the last level threshold:
 
-```
+```text
 progress = (totalXP mod 1000) / 1000 × 100%
 ```
 
@@ -36,6 +36,7 @@ Use this table to see how XP maps to levels. Every level always requires exactly
 | 1 | 1,000 | 1,000 |
 | 2 | 1,000 | 2,000 |
 | 3 | 1,000 | 3,000 |
+| 4 | 1,000 | 4,000 |
 | 5 | 1,000 | 5,000 |
 | 10 | 1,000 | 10,000 |
 

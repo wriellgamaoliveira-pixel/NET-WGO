@@ -1,5 +1,5 @@
 ---
-title: "AI Updates Tab: Import and Apply Data Packages"
+title: "AI Updates Tab: Import, Preview, and Apply Data Packages"
 sidebarTitle: "AI Updates"
 description: "Use the W-G-O NetNavi AI Updates tab to import .wgo packages, JSON data, or new GLB avatars from an AI assistant — with preview and safe rollback."
 ---
@@ -54,7 +54,7 @@ Follow these steps every time you receive a `.wgo` package from an AI assistant 
     If the diff looks correct, tap **Apply Update**. A confirmation dialog appears asking you to confirm the operation. Tap **Confirm** to proceed.
   </Step>
   <Step title="Your data is updated; previous state is backed up">
-    The app writes all changes from the package to the local database and saves a complete backup of the previous state in the background. A success banner confirms the update is live. You can now navigate to the Status Screen or Mission History to see the new data.
+    The app writes all changes from the package to your local data and saves a complete backup of the previous state in the background. A success banner confirms the update is live. You can now navigate to the Status Screen or Mission History to see the new data.
   </Step>
 </Steps>
 
@@ -72,10 +72,10 @@ Every import is designed so that you can always undo it. W-G-O NetNavi enforces 
     Tapping **Apply Update** opens a confirmation dialog. You must actively confirm — the dialog does not auto-dismiss or time out.
   </Accordion>
   <Accordion title="Automatic backup on every apply">
-    Immediately before writing any changes, the app snapshots the current database state and stores it as a timestamped backup. You do not need to do anything to trigger this — it happens automatically on every successful apply.
+    Immediately before writing any changes, the app snapshots your current hero data and stores it as a timestamped backup. You do not need to do anything to trigger this — it happens automatically on every successful apply.
   </Accordion>
   <Accordion title="Restore Backup">
-    If something looks wrong after an update, tap **Restore Backup** in the AI Updates tab. The app lists available backup snapshots with timestamps. Select the snapshot you want and confirm — the app rolls back all data to that point. The avatar GLB files are restored along with the database if they were part of the backup.
+    If something looks wrong after an update, tap **Restore Backup** in the AI Updates tab. The app lists available backup snapshots with timestamps. Select the snapshot you want and confirm — the app rolls back all data to that point. Avatar GLB files are restored along with your hero data if they were part of the backup.
   </Accordion>
 </AccordionGroup>
 

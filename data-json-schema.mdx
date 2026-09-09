@@ -22,7 +22,7 @@ The `data.json` file is the heart of every `.wgo` package — it carries all the
 | `wallas` | object | No | Character data for Wallas |
 | `melynna` | object | No | Character data for Melynna |
 | `rules` | array | No | Replaces the XP rule set |
-| `settings` | array | No | Updates app-level settings |
+| `settings` | object | No | Updates app-level settings |
 
 ## Character Object
 
@@ -137,12 +137,21 @@ The `rules` key is optional. When present, it **replaces** the entire XP rule se
 ]
 ```
 
-| Field | Type | Description |
-|---|---|---|
-| `event` | string | The event key used in history entries |
-| `label` | string | Human-readable name shown in the app |
-| `xp` | integer | XP delta — positive for rewards, negative for penalties |
-| `type` | string | `"reward"` or `"penalty"` (used for display styling) |
+<ParamField body="rules[].event" type="string" required>
+  The event key used in history entries (for example, `"lunch"`, `"bath"`, `"tv_hour"`). This value must match the `event` field in any `history` entries that refer to this rule.
+</ParamField>
+
+<ParamField body="rules[].label" type="string" required>
+  The human-readable name for this event shown in the app's rule list and history view (for example, `"Almoço"` or `"TV (por hora)"`).
+</ParamField>
+
+<ParamField body="rules[].xp" type="integer" required>
+  The XP delta applied when this event is recorded. Use a positive integer for rewards and a negative integer for penalties.
+</ParamField>
+
+<ParamField body="rules[].type" type="string" required>
+  Indicates whether this rule is a reward or a penalty. Accepted values: `"reward"` or `"penalty"`. This field is used for display styling in the app and does not affect the XP calculation.
+</ParamField>
 
 ## Settings Object
 
@@ -155,10 +164,13 @@ The `settings` key is optional. When present, the provided fields are merged int
 }
 ```
 
-| Field | Type | Description |
-|---|---|---|
-| `appLanguage` | string | BCP 47 language tag for the app UI (for example, `"pt-BR"`) |
-| `xpPerLevel` | integer | XP required to advance one level (default: `1000`) |
+<ParamField body="settings.appLanguage" type="string">
+  A BCP 47 language tag that sets the app UI language (for example, `"pt-BR"` for Brazilian Portuguese). Only change this if you intend to switch the interface language.
+</ParamField>
+
+<ParamField body="settings.xpPerLevel" type="integer">
+  The number of XP points required to advance one level. Defaults to `1000`. Changing this value affects how levels are displayed but does not retroactively recalculate stored `level` fields in character objects.
+</ParamField>
 
 ## Related
 

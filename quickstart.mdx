@@ -1,26 +1,25 @@
 ---
-title: "Get Started with W-G-O NetNavi in 5 Steps"
-sidebarTitle: "Quick Start"
+title: "Get Started with W-G-O NetNavi: Your First 5 Steps"
+sidebarTitle: "Quickstart"
 description: "Set up W-G-O NetNavi, select a character, log your first XP event, and import an AI-generated daily update package in under 10 minutes."
 ---
 
 W-G-O NetNavi is a gamified Android app that turns everyday activities into XP-earning adventures for Wallas and Melynna. This guide walks you through everything a parent or guardian needs to do — from installing the app to logging your child's first mission event — so your family is up and running in just a few minutes.
 
 <Steps>
-  <Step title="Build or Install the App">
-    W-G-O NetNavi is built with **Kotlin + Jetpack Compose** in Android Studio, so you can either compile it from source or sideload a pre-built APK onto your device.
+  <Step title="Install the App">
+    W-G-O NetNavi runs on Android 8.0 or higher. Before you install, confirm your device meets the minimum requirements:
 
-    Before you begin, confirm your device meets the minimum requirements:
     - **Android version:** 8.0 (API level 26) or higher
     - **Free storage:** ~50 MB
 
-    **To build from source:**
-    1. Open the project folder in Android Studio.
-    2. Wait for Gradle to finish syncing all dependencies.
-    3. Select your target device or emulator from the toolbar, then click **Run ▶**.
+    To install the app from an APK file:
+    1. On your Android device, open **Settings → Security** (or **Settings → Apps → Special app access** on newer devices).
+    2. Enable **Install unknown apps** for your file manager or browser.
+    3. Tap the `.apk` file you received and follow the on-screen prompts to complete the installation.
 
     <Note>
-      If you received a pre-built APK instead, go to **Android Settings → Security** and enable **Install from unknown sources**, then tap the APK file to begin installation.
+      The option to install apps from outside the Play Store is a standard Android security setting. You only need to enable it once. After the app is installed, you can turn it off again if you prefer.
     </Note>
   </Step>
 
@@ -40,19 +39,11 @@ W-G-O NetNavi is a gamified Android app that turns everyday activities into XP-e
     Follow these steps to log the event:
     1. Browse or search the activity list and select the relevant action — for example, **Lunch** awards **+5 XP**.
     2. Tap **Confirm** to save the entry.
-    3. Watch the progress bar update in real time as the XP is added and written to local storage immediately.
+    3. Watch the progress bar update in real time as the XP is added to the hero's total.
 
-    <CodeGroup>
-      ```json Quick XP Event
-      {
-        "character": "wallas",
-        "event": "lunch",
-        "xp": 5,
-        "date": "2026-09-07",
-        "note": "Finished all the food!"
-      }
-      ```
-    </CodeGroup>
+    <Tip>
+      You can also import a batch of events at once using a `.wgo` package or a JSON file — see Step 5 for details.
+    </Tip>
   </Step>
 
   <Step title="View Mission History">
@@ -61,7 +52,7 @@ W-G-O NetNavi is a gamified Android app that turns everyday activities into XP-e
     Each entry in the history list shows:
     - The **activity name** and **XP value** awarded
     - A **timestamp** indicating when the event was recorded
-    - An optional **image attachment** — for example, a photo of a drawing from Bob's Goods or another activity keepsake
+    - An optional **image attachment** — for example, a photo of a drawing or another activity keepsake
   </Step>
 
   <Step title="Import an AI Update (Optional)">

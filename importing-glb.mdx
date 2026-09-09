@@ -53,24 +53,20 @@ W-G-O NetNavi lets you replace the default avatar for Wallas or Melynna with any
 
 ## Animation Clip Mapping
 
-The app resolves animation names by looking up each action keyword against the clip names stored in your GLB. You can override the default one-to-one mapping using a JSON config, which is useful when your exporter adds prefixes like `Armature|` to every clip name.
+The app resolves animation names by looking up each action keyword against the clip names stored in your GLB. The table below shows every supported action and the clip name keyword the app searches for.
 
-<CodeGroup>
-```json Animation Mapping Config
-{
-  "character": "wallas",
-  "animationMap": {
-    "idle": "idle",
-    "walk": "walk",
-    "run": "run",
-    "jump": "jump",
-    "celebrate": "Armature|celebrate"
-  }
-}
-```
-</CodeGroup>
+| Action | Clip Name Keyword |
+|---|---|
+| Idle | `idle` |
+| Walk | `walk` |
+| Run | `run` |
+| Jump | `jump` |
+| Crouch | `crouch` |
+| Wave | `wave` |
+| Sleep | `sleep` |
+| Celebrate | `celebrate` |
 
-Each key is the **action name** the app uses internally; each value is the **exact clip name** as it appears in the GLB. You only need to include entries that differ from the default (keyword equals clip name). Any action not listed in the config falls back to fuzzy substring matching automatically.
+The app uses **fuzzy substring matching**, so clip names like `Armature|idle` or `Character_walk` are recognized automatically as long as the keyword appears somewhere in the clip name. You do not need to rename clips in your 3D editor before exporting.
 
 ## Troubleshooting
 
@@ -81,7 +77,7 @@ If something looks wrong after importing, check the common issues below before r
     The most common cause is **textures not embedded** in the GLB. Open your 3D editor (e.g., Blender), re-export the file, and make sure the export settings include **"Embed Textures"** or **"Self-Contained"**. External texture files in a separate folder are not loaded by the importer.
   </Accordion>
   <Accordion title="No animations playing" icon="circle-stop">
-    Check that your clip names contain one of the expected keywords: `idle`, `walk`, `run`, `jump`, `crouch`, `wave`, `sleep`, or `celebrate`. Open the GLB in a viewer (e.g., [gltf.report](https://gltf.report) or Blender's NLA editor) to inspect the clip names. If the names use a different convention entirely, rename them or provide an animation mapping config as shown above.
+    Check that your clip names contain one of the expected keywords: `idle`, `walk`, `run`, `jump`, `crouch`, `wave`, `sleep`, or `celebrate`. Open the GLB in a viewer (e.g., [gltf.report](https://gltf.report) or Blender's NLA editor) to inspect the clip names. If the names use a different convention entirely, rename them in your 3D editor and re-export before importing again.
   </Accordion>
   <Accordion title="File too large" icon="weight-scale">
     If your GLB exceeds 20 MB, the app may load slowly or fail on lower-end devices. Reduce file size by compressing textures (resize to 1024×1024 or use a tool like **gltf-transform** to apply KTX2/Basis compression) or by reducing the polygon count of the mesh in your 3D editor before re-exporting.
