@@ -1,0 +1,113 @@
+---
+title: "Example: Bob's Goods Mission Completion Package"
+sidebarTitle: "Mission Complete"
+description: "A worked example .wgo package for a Bob's Goods mission completion for Melynna, including the XP event, mission record, and drawing image attachment."
+---
+
+When a child completes a creative mission like Bob's Goods, you can attach a photo of the finished drawing directly inside the `.wgo` package. The image travels with the event record, gets stored locally on the device, and appears as a tappable thumbnail inside the Mission History screen — no internet connection required. This page walks you through every file in a mission-completion package for Melynna's Bob's Goods completion on September 7, 2026.
+
+## Scenario
+
+<Card title="Melynna — Bob's Goods Complete" icon="paintbrush">
+  Melynna completed the Bob's Goods drawing mission in a **single session** on 2026-09-07, earning **+50 XP**. A photo of the finished drawing is included in the package as `melynna_bobs_goods_2026-09-07.jpg`.
+</Card>
+
+---
+
+## The Package Files
+
+A mission-completion package with an image contains three items: `manifest.json`, `data.json`, and an `images/` folder holding the photo. Each is described below.
+
+### manifest.json
+
+Set `includes.images` to `true` whenever the archive contains an `images/` folder. The app skips the image-copy step entirely if this flag is `false`, so getting it right avoids silent failures.
+
+```json manifest.json
+{
+  "schema": "wgo-netnavi",
+  "version": "1.0",
+  "created": "2026-09-07T21:15:00Z",
+  "description": "Mission completion — Melynna, Bob's Goods, 07/09/2026.",
+  "includes": {
+    "data": true,
+    "wallasMdl": false,
+    "melynnaMdl": false,
+    "images": true
+  }
+}
+```
+
+### data.json
+
+The `imageRef` field links the event record to the image file inside the package. Use the filename exactly as it appears in the `images/` folder — the app performs a case-sensitive match.
+
+```json data.json
+{
+  "melynna": {
+    "xp": 50,
+    "level": 0,
+    "history": [
+      {
+        "id": "evt-20260907-104",
+        "date": "2026-09-07",
+        "event": "bobs_goods_complete",
+        "label": "Bob's Goods — Completa",
+        "xp": 50,
+        "imageRef": "melynna_bobs_goods_2026-09-07.jpg"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Archive Folder Structure
+
+Organise your files exactly as shown below before running the pack command. The `images/` directory must sit at the root of the archive alongside the two JSON files.
+
+```
+melynna-bobs-goods.wgo
+├── manifest.json
+├── data.json
+└── images/
+    └── melynna_bobs_goods_2026-09-07.jpg
+```
+
+---
+
+## Pack the Archive
+
+Place your image in an `images/` folder first, then zip everything together and rename the archive.
+
+```bash Create mission .wgo with image
+# Place your image in an images/ folder first
+zip -r melynna-bobs-goods.zip manifest.json data.json images/
+mv melynna-bobs-goods.zip melynna-bobs-goods.wgo
+```
+
+<Tip>
+  For the two-step Bob's Goods mission — where the **start** earns +2 XP and the **completion** earns +48 XP — you can package both events together in a single daily update rather than creating two separate `.wgo` files. Just include both `bobs_goods_start` and `bobs_goods_complete` entries in the `history` array of your `data.json`. See the [Daily Update example](/example-daily-update) to see exactly how Wallas's two-step entries look side by side.
+</Tip>
+
+---
+
+## How This Appears in Mission History
+
+Once you load the package in NetNavi, Melynna's Mission History screen updates immediately. Here is what the app shows for this entry:
+
+<Steps>
+  <Step title="Mission entry row">
+    The history list displays a row labelled **"Bob's Goods — Completa"** with a **+50 XP** badge on the right.
+  </Step>
+  <Step title="Drawing thumbnail">
+    A small thumbnail of `melynna_bobs_goods_2026-09-07.jpg` appears inside the entry row, to the left of the label.
+  </Step>
+  <Step title="Full-screen view">
+    Tap the thumbnail to open the full-resolution image in the app's built-in viewer. Tap anywhere outside the image to return to the history list.
+  </Step>
+</Steps>
+
+<Note>
+  Image files in the package are copied to the app's local storage during import and remain available offline. You can delete the original `.wgo` file from your device after a successful import without losing the attached photo.
+</Note>

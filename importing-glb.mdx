@@ -1,0 +1,95 @@
+---
+title: "Import a Custom 3D Avatar GLB for Wallas or Melynna"
+sidebarTitle: "Import GLB"
+description: "Step-by-step guide to importing a custom GLB/GLTF avatar model for Wallas or Melynna in W-G-O NetNavi, including animation mapping and troubleshooting."
+---
+
+W-G-O NetNavi lets you replace the default avatar for Wallas or Melynna with any custom `.glb` model you create or download. The import process takes less than a minute: you pick the file, the app validates and previews it, and your new avatar appears on the glowing platform right away. Follow the steps below to get your model into the app correctly.
+
+<Warning>
+  Importing a new GLB **permanently replaces** the character's current model. The app keeps one automatic backup of the previous model for the current session only — if you close the app before reverting, the backup is discarded. Export and save any model you want to keep before importing a replacement.
+</Warning>
+
+## Import Steps
+
+<Steps>
+  <Step title="Prepare Your GLB File">
+    Before opening the app, make sure your model file meets the requirements below so the import succeeds on the first try.
+
+    - The file must be a valid **`.glb`** (binary GLTF) or **`.gltf`** file. A single self-contained `.glb` with all textures embedded is strongly recommended.
+    - Keep the file size **under 20 MB** for smooth loading on mid-range Android devices.
+    - Name your animation clips using the expected keywords: `idle`, `walk`, `run`, `jump`, `crouch`, `wave`, `sleep`, `celebrate`. The app uses fuzzy matching, so `Armature|idle` also works.
+    - Orient the model so it faces the **+Z axis** (forward) in its default T-pose.
+  </Step>
+
+  <Step title="Open the AI Updates Tab">
+    Launch W-G-O NetNavi and tap the **AI Updates** tab at the bottom of the screen. This is where all avatar and model management controls live.
+  </Step>
+
+  <Step title="Tap the Correct Import Button">
+    Locate the import section and tap the button for the character you want to update.
+
+    - To update **Wallas**: tap **Import GLB — Wallas**
+    - To update **Melynna**: tap **Import GLB — Melynna**
+
+    A system file picker opens immediately after you tap either button.
+  </Step>
+
+  <Step title="Select Your GLB File">
+    In the file picker, navigate to the folder where your `.glb` file is saved and tap it to select it. The app reads the file and validates its format before proceeding. If the file is not a valid GLB/GLTF, the picker closes and displays an error message — check that the file extension is `.glb` or `.gltf` and try again.
+  </Step>
+
+  <Step title="Confirm the Import">
+    After validation, a preview screen displays the **model file name** and a list of **detected animation clips** found inside the GLB. Review the clip list to confirm your animations were found correctly, then tap **Apply** to load the model.
+
+    - The previous avatar is backed up automatically for this session.
+    - Tapping **Cancel** here closes the preview without making any changes.
+  </Step>
+
+  <Step title="Verify on the Status Screen">
+    Navigate to the **Status** tab. Your new avatar should now appear standing on the glowing character platform. Tap any action button — for example, **Wave** — to trigger a test animation and confirm that the clip plays back correctly.
+  </Step>
+</Steps>
+
+## Animation Clip Mapping
+
+The app resolves animation names by looking up each action keyword against the clip names stored in your GLB. You can override the default one-to-one mapping using a JSON config, which is useful when your exporter adds prefixes like `Armature|` to every clip name.
+
+<CodeGroup>
+```json Animation Mapping Config
+{
+  "character": "wallas",
+  "animationMap": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "jump": "jump",
+    "celebrate": "Armature|celebrate"
+  }
+}
+```
+</CodeGroup>
+
+Each key is the **action name** the app uses internally; each value is the **exact clip name** as it appears in the GLB. You only need to include entries that differ from the default (keyword equals clip name). Any action not listed in the config falls back to fuzzy substring matching automatically.
+
+## Troubleshooting
+
+If something looks wrong after importing, check the common issues below before re-exporting your model.
+
+<AccordionGroup>
+  <Accordion title="Model not showing" icon="eye-slash">
+    The most common cause is **textures not embedded** in the GLB. Open your 3D editor (e.g., Blender), re-export the file, and make sure the export settings include **"Embed Textures"** or **"Self-Contained"**. External texture files in a separate folder are not loaded by the importer.
+  </Accordion>
+  <Accordion title="No animations playing" icon="circle-stop">
+    Check that your clip names contain one of the expected keywords: `idle`, `walk`, `run`, `jump`, `crouch`, `wave`, `sleep`, or `celebrate`. Open the GLB in a viewer (e.g., [gltf.report](https://gltf.report) or Blender's NLA editor) to inspect the clip names. If the names use a different convention entirely, rename them or provide an animation mapping config as shown above.
+  </Accordion>
+  <Accordion title="File too large" icon="weight-scale">
+    If your GLB exceeds 20 MB, the app may load slowly or fail on lower-end devices. Reduce file size by compressing textures (resize to 1024×1024 or use a tool like **gltf-transform** to apply KTX2/Basis compression) or by reducing the polygon count of the mesh in your 3D editor before re-exporting.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+<Card title="3D Avatar Overview" icon="person" href="/avatars-overview">
+  Learn about GLB/GLTF model requirements, animation fallback behavior, and character color themes before you start importing.
+</Card>

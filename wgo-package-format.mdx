@@ -1,0 +1,96 @@
+---
+title: "The .wgo Package Format: Structure and Manifest"
+sidebarTitle: "Package Format"
+description: "Learn the W-G-O update package format (.wgo): a ZIP archive with manifest.json, data.json, optional GLB avatars, and mission images for the NetNavi app."
+---
+
+A `.wgo` file is the standard update package for W-G-O NetNavi — it bundles character data, optional 3D avatar models, and mission images into a single file that you import directly into the app. Under the hood, it is a regular ZIP archive that has been renamed with the `.wgo` extension, so you can create and inspect one with any ZIP tool you already have.
+
+## File Structure
+
+A `.wgo` package follows a flat, predictable layout. Only `manifest.json` and `data.json` are required; everything else is optional depending on what the update includes.
+
+```
+myupdate.wgo
+├── manifest.json       (required)
+├── data.json           (required)
+├── wallas.glb          (optional — replaces Wallas avatar)
+├── melynna.glb         (optional — replaces Melynna avatar)
+└── images/             (optional — mission image attachments)
+    ├── wallas_bobs_goods_2026-09-07.jpg
+    └── melynna_bobs_goods_2026-09-07.jpg
+```
+
+Both `manifest.json` and `data.json` must sit at the **root level** of the archive — do not nest them inside a subfolder. Image files must go inside the `images/` subfolder and be referenced by the corresponding `imageRef` fields in `data.json`.
+
+## manifest.json
+
+The manifest is the first file the app reads. It declares what the package contains and tells the importer which files to expect before it opens anything else.
+
+```json manifest.json
+{
+  "schema": "wgo-netnavi",
+  "version": "1.0",
+  "created": "2026-09-07T22:00:00Z",
+  "description": "Daily update for Wallas and Melynna — September 7, 2026",
+  "includes": {
+    "data": true,
+    "wallasMdl": false,
+    "melynnaMdl": false,
+    "images": true
+  }
+}
+```
+
+<Note>
+  The app validates the manifest schema before processing any other content in the package. If `schema` is not `"wgo-netnavi"` or any required field is missing, the import is rejected immediately and no changes are applied to the app state.
+</Note>
+
+### Field Reference
+
+<ParamField body="schema" type="string" required>
+  Must be exactly `"wgo-netnavi"`. This value identifies the file as a W-G-O NetNavi package and prevents the app from accidentally importing unrelated ZIP archives.
+</ParamField>
+
+<ParamField body="version" type="string" required>
+  The package schema version. The current and only supported value is `"1.0"`. Future versions of the app may introduce new schema versions while remaining backward-compatible with `"1.0"` packages.
+</ParamField>
+
+<ParamField body="created" type="string" required>
+  An ISO 8601 timestamp recording when the package was generated (for example, `"2026-09-07T22:00:00Z"`). The app displays this in the diff preview so you can confirm you are importing the intended update.
+</ParamField>
+
+<ParamField body="description" type="string">
+  A free-text summary of what the package contains. This field is optional but strongly recommended — the app shows it in the import preview screen, giving you a quick human-readable overview before you confirm.
+</ParamField>
+
+<ParamField body="includes.data" type="boolean">
+  Set to `true` if `data.json` is present in the archive. The app will expect to find `data.json` at the root level and will error if this flag is `true` but the file is absent.
+</ParamField>
+
+<ParamField body="includes.wallasMdl" type="boolean">
+  Set to `true` if `wallas.glb` is present in the archive. When `true`, the app replaces Wallas's current 3D avatar model with the one in the package.
+</ParamField>
+
+<ParamField body="includes.melynnaMdl" type="boolean">
+  Set to `true` if `melynna.glb` is present in the archive. When `true`, the app replaces Melynna's current 3D avatar model with the one in the package.
+</ParamField>
+
+<ParamField body="includes.images" type="boolean">
+  Set to `true` if the `images/` folder is present in the archive. The app uses this flag to resolve `imageRef` paths in `data.json` — if `images` is `false` but a `data.json` field references an image path, the reference is silently ignored.
+</ParamField>
+
+## Creating a .wgo File Manually
+
+You do not need any special tooling to produce a valid `.wgo` file. Follow these steps:
+
+1. Assemble your files (`manifest.json`, `data.json`, and any optional assets) in a local folder.
+2. Select all the files and compress them into a standard ZIP archive. Make sure `manifest.json` and `data.json` are at the root of the ZIP, not inside a named subfolder.
+3. Rename the resulting file, replacing the `.zip` extension with `.wgo` — for example, `daily-update.zip` becomes `daily-update.wgo`.
+4. Transfer the `.wgo` file to your Android device and import it through the app.
+
+That's all there is to it. The `.wgo` extension is purely a naming convention; the file remains a valid ZIP and can be reopened with any ZIP utility if you need to inspect or modify it.
+
+## Next Steps
+
+For the full schema of what goes inside `data.json`, see the [data.json Schema](/data-json-schema) reference. For a complete walkthrough of assembling and sending a package, see [Generating Packages](/generating-packages).

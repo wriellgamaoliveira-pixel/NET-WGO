@@ -1,0 +1,52 @@
+---
+title: "Level System: How Heroes Grow in W-G-O NetNavi"
+sidebarTitle: "Levels"
+description: "Learn how the W-G-O NetNavi level system works. Every 1,000 XP earns a new level, starting from Level 0 Iniciante. Track progress with the XP bar."
+---
+
+Every hero in W-G-O NetNavi starts their journey at the same place: **Level 0 — Iniciante** (Beginner). As you complete daily habits and missions and accumulate XP, your hero grows stronger and climbs through the level system. Leveling up isn't just a number — it triggers a special hero pose and celebration animation that marks how far you've come.
+
+## How Levels Work
+
+The level system is straightforward: for every **1,000 XP** you earn, your hero gains **one level**. Your current level is always calculated from your total XP using this formula:
+
+```
+level = floor(totalXP / 1000)
+```
+
+This means it doesn't matter how you spread your XP earnings over time — your level always reflects your total progress. Wallas is currently at **85 XP (Level 0)** and Melynna is at **83 XP (Level 0)**. Both heroes are building momentum toward their first level-up!
+
+## XP Progress Bar
+
+The progress bar on your hero's profile shows how far you are through your current level. It fills up based on the XP you've earned since the last level threshold:
+
+```
+progress = (totalXP mod 1000) / 1000 × 100%
+```
+
+For example, if your hero has 1,350 XP total, the bar shows **35%** of the way to Level 2 — because 350 of the 1,000 XP needed for the next level have already been earned.
+
+## Level Thresholds
+
+Use this table to see how XP maps to levels. Every level always requires exactly 1,000 XP to reach from the one before it.
+
+| Level | XP Required to Reach This Level | Total XP Needed |
+|---|---|---|
+| 0 | 0 | 0 |
+| 1 | 1,000 | 1,000 |
+| 2 | 1,000 | 2,000 |
+| 3 | 1,000 | 3,000 |
+| 5 | 1,000 | 5,000 |
+| 10 | 1,000 | 10,000 |
+
+## Level-Up Celebration
+
+When your hero crosses a 1,000 XP threshold, W-G-O NetNavi plays a **hero pose and celebration animation** to mark the moment. This is your reward for consistent effort — a visual shout-out to your hard work before the adventure continues.
+
+## Level Names
+
+At Level 0, every hero carries the title **Iniciante** (Beginner). Level names and titles for higher levels are planned for a future update — so as the app grows, reaching Level 5 or Level 10 will come with its own unique hero title to show off.
+
+<Tip>
+You can reach **Level 1 in about 33 days** just by sticking to a consistent daily routine. A bath (+5 XP), lunch and dinner (+10 XP), brushing teeth (+5 XP), taking medicine (+5 XP), and a nap (+5 XP) add up to at least **30 XP every day** — without any bonus missions. Stack in school days, good behavior bonuses, and the Bob's Goods drawing to get there even faster!
+</Tip>

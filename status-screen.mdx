@@ -1,0 +1,125 @@
+---
+title: "Status Screen: Your Hero's XP Dashboard"
+sidebarTitle: "Status Screen"
+description: "The W-G-O NetNavi Status Screen shows each hero's XP, level, progress bar, 3D avatar, and available animations in one glanceable dashboard."
+---
+
+The Status Screen is the heart of W-G-O NetNavi — the first thing you see when you open the app and the place where each hero's journey comes to life. Here you can check current XP, see what level your hero has reached, watch their 3D avatar in action, and get a quick narrative summary of their standing. Everything you need to celebrate progress is in one glanceable dashboard.
+
+## Switching Between Heroes
+
+At the very top of the screen, two **character selector tabs** let you jump between heroes instantly.
+
+<CardGroup cols={2}>
+  <Card title="Wallas" icon="shield" iconType="solid" color="#3B82F6">
+    Tap the **blue Wallas tab** to load Wallas's avatar, stats, and mission history.
+  </Card>
+  <Card title="Melynna" icon="wand-magic-sparkles" iconType="solid" color="#EC4899">
+    Tap the **pink Melynna tab** to load Melynna's avatar, stats, and mission history.
+  </Card>
+</CardGroup>
+
+The screen refreshes immediately when you switch tabs, pulling the selected hero's data from the local database.
+
+---
+
+## The 3D Avatar Stage
+
+The large center-left panel is the **avatar stage** — a glowing platform where your hero's 3D model stands, moves, and reacts to their progress.
+
+- The character's name appears in **bold** on the **nameplate** at the top-left of the stage.
+- The avatar loads from the hero's current GLB model file and begins playing the **idle animation** automatically on loop.
+- The glowing platform shifts color subtly to match the active hero's theme (blue for Wallas, pink for Melynna).
+
+### Available Animations
+
+Tap any animation button below the stage to trigger that action. The avatar returns to the idle loop when the animation finishes (or loops continuously if the clip is set to loop).
+
+<AccordionGroup>
+  <Accordion title="Idle (parado) — Default">
+    The hero stands at rest, breathing and blinking in a continuous loop. This animation plays automatically whenever no other action is selected.
+  </Accordion>
+  <Accordion title="Walk (andar)">
+    The hero walks in place, useful for celebrating everyday task completion.
+  </Accordion>
+  <Accordion title="Run (correr)">
+    The hero breaks into a full run — great for high-energy reward moments.
+  </Accordion>
+  <Accordion title="Jump (pular)">
+    The hero leaps upward with a satisfying landing. Use it to mark a level-up or a big mission win.
+  </Accordion>
+  <Accordion title="Crouch (agachar)">
+    The hero crouches low, ready for action.
+  </Accordion>
+  <Accordion title="Wave (acenar)">
+    The hero waves hello — a friendly greeting animation.
+  </Accordion>
+  <Accordion title="Sleep (dormir)">
+    The hero settles down to sleep, ideal for bedtime routine rewards.
+  </Accordion>
+  <Accordion title="Celebrate / Hero Pose (comemorar / pose de herói)">
+    The hero strikes a triumphant pose. Reserve this one for the biggest milestones.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  Animation clips inside the GLB file should use lowercase names that match the action identifiers — for example, a clip named `idle`, `walk`, `run`, `jump`, `crouch`, `wave`, `sleep`, or `celebrate`. When your GLB contains clips with these exact names, the app maps them automatically. If a clip name does not match, that animation button will be hidden or fall back to the idle clip.
+</Note>
+
+---
+
+## Stats Panel
+
+The **stats panel** on the right side of the screen displays your hero's current progression data at a glance.
+
+<ResponseField name="XP Atual" type="integer">
+  Your hero's **total accumulated XP** across all missions and events. This number only goes up (penalties reduce the running total, but the history log preserves every transaction).
+</ResponseField>
+
+<ResponseField name="Nível" type="string">
+  Your hero's **current level number and name** — for example, *Level 0 / Iniciante*. The level name advances as your hero crosses XP thresholds.
+</ResponseField>
+
+<ResponseField name="Próximo Nível" type="integer">
+  The **XP threshold** required to reach the next level. This is always calculated as:
+
+  ```
+  Next Level XP = (Current Level × 1000) + 1000
+  ```
+
+  So a hero at Level 0 needs 1 000 XP to reach Level 1, a hero at Level 1 needs 2 000 XP total to reach Level 2, and so on.
+</ResponseField>
+
+---
+
+## Progress Bar
+
+Directly below the stats panel, the **progress bar** shows how far your hero has come since the last level-up.
+
+The bar fills according to this formula:
+
+```
+Progress = (XP mod 1000) / 1000
+```
+
+A percentage label updates in real time alongside the bar. For example, a hero with 1 450 total XP is at Level 1 and shows a progress bar at **45 %** toward Level 2.
+
+---
+
+## Summary Card
+
+Below the progress bar, a **summary card** displays a short narrative sentence describing your hero's current standing — for example, *"Wallas is a rising Iniciante with 450 XP to go before the next level!"* The summary updates automatically whenever XP or level data changes.
+
+---
+
+## Bottom Tab Bar
+
+The tab bar at the bottom of every main screen lets you navigate between the three core sections of W-G-O NetNavi.
+
+| Tab | Icon | What you'll find |
+|-----|------|-----------------|
+| **Status** | ⭐ | This screen — XP, level, avatar, and stats |
+| **Rules** | 📋 | The active rule set that governs XP awards and penalties |
+| **Mission History** | 🕘 | A full chronological log of every XP event |
+
+Tap any tab to switch screens instantly without losing your place.

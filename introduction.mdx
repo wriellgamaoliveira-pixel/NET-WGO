@@ -1,0 +1,46 @@
+---
+title: "W-G-O NetNavi: Gamified Habits for Young Heroes"
+sidebarTitle: "Introduction"
+description: "W-G-O NetNavi turns daily habits into XP adventures for Wallas and Melynna. Learn how the app works, its offline-first design, and the level system."
+---
+
+W-G-O NetNavi is a gamified family habit-tracker built natively for Android using Kotlin and Jetpack Compose. Designed for two young heroes — **Wallas** and **Melynna** — the app transforms everyday routines like brushing teeth, reading, and finishing homework into exciting XP-earning missions. Parents and guardians set up the habits; the children live the adventure.
+
+## How the XP & Level System Works
+
+Every completed habit awards XP to the hero who accomplished it. Accumulate **1,000 XP** to advance one level, starting from **Level 0 — Iniciante**. There is no cap: as Wallas and Melynna build stronger routines, they keep climbing the ranks. The progress bar on each hero's profile screen shows exactly how far they are from their next level, keeping the goal always visible and always motivating.
+
+<Note>
+  W-G-O NetNavi is designed for supervised family use. A parent or guardian should be present during initial setup to create hero profiles, define daily missions, and configure XP values. Children interact with their own profiles independently after setup is complete.
+</Note>
+
+## Offline-First by Design
+
+W-G-O NetNavi stores all data locally using **Room** (structured mission and XP data) and **DataStore** (app preferences and hero settings). The app works without an internet connection — heroes never miss a mission just because Wi-Fi is down. When you or an AI assistant want to push new content, simply import a **`.wgo` update package**. The app reads the package, applies new missions or XP rule changes, and reflects them immediately on both hero profiles.
+
+## The Villains Are Watching
+
+Habits are powerful — but so is inertia. When a hero goes too long without completing missions, three villains emerge to make things dramatic:
+
+- **Preguix** — the spirit of laziness, who whispers that today's missions can wait until tomorrow.
+- **Desanimax** — the discourager, who tries to convince heroes their streak doesn't matter.
+- **Distrax** — the distractor, who floods a hero's focus with noise and detours.
+
+Completing missions defeats the active villain and restores the hero's momentum. The villains are narrative fuel — they give children a *reason* to show up every day.
+
+## Explore the App
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Set up W-G-O NetNavi in minutes. Create hero profiles, add your first missions, and earn your first XP.
+  </Card>
+  <Card title="Characters" icon="users" href="/characters">
+    Meet Wallas and Melynna — their stats, themes, avatar system, and independent XP profiles.
+  </Card>
+  <Card title="XP Rules" icon="star" href="/xp-rules">
+    Understand how XP is earned, how levels are calculated, and how to customize mission rewards.
+  </Card>
+  <Card title="AI Updates" icon="robot" href="/ai-updates">
+    Learn how AI assistants and parents can push `.wgo` update packages to add or modify missions.
+  </Card>
+</CardGroup>

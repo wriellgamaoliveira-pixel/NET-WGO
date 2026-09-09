@@ -1,0 +1,83 @@
+---
+title: "3D Avatars in W-G-O NetNavi: GLB/GLTF Support"
+sidebarTitle: "Avatar Overview"
+description: "W-G-O NetNavi renders 3D GLB/GLTF avatars for Wallas and Melynna using Filament. Learn about animation mapping, fallbacks, and model requirements."
+---
+
+W-G-O NetNavi brings Wallas and Melynna to life using fully 3D avatars rendered in real time on Android via the Filament engine and SceneView. Each character occupies its own independent avatar slot, so you can customize Wallas and Melynna separately — swapping, updating, or restoring models at any time without affecting the other character.
+
+## Character Themes
+
+Each character has a dedicated color theme that carries through the entire avatar experience. The glowing platform beneath the character's feet pulses in that character's signature color, giving the Status screen a vibrant, personalized look.
+
+<CardGroup cols={2}>
+  <Card title="Wallas" icon="circle" iconType="solid" color="#3B82F6">
+    Wallas uses the **blue** color theme. His avatar platform glows blue, and his UI accents reflect that palette throughout the app.
+  </Card>
+  <Card title="Melynna" icon="circle" iconType="solid" color="#EC4899">
+    Melynna uses the **pink** color theme. Her avatar platform glows pink, and her UI accents follow the same palette.
+  </Card>
+</CardGroup>
+
+## Avatar Model Format
+
+W-G-O NetNavi loads character models in the **GLB** (binary GLTF) or **GLTF** format — the industry-standard container for real-time 3D assets. The app uses Android's SceneView library backed by Google's Filament rendering engine, which means your models get physically-based rendering (PBR), dynamic lighting, and smooth animation playback on supported devices.
+
+<Note>
+  Your GLB file must be **self-contained with all textures embedded** inside the binary. External texture references (e.g., separate `.png` or `.jpg` files) are not resolved by the importer and will result in an untextured or invisible model.
+</Note>
+
+### Fallback Avatar
+
+If you have not imported a custom GLB for a character, the app automatically displays a built-in **fallback avatar** — a simple, stylized 3D placeholder that still responds to all animation triggers. Real photos of the children are **not** used as avatar textures by default; the app is intentionally designed around stylized 3D models to keep the experience fun and age-appropriate.
+
+## Supported Animation Actions
+
+Animation clips are driven by **clip names** baked into your GLB file. The table below lists every action the app recognizes, the exact clip name it looks for first, and what it falls back to if that clip is missing.
+
+| Action | Expected Clip Name | Fallback |
+|---|---|---|
+| Idle | `idle` | Loop first frame |
+| Walk | `walk` | Idle |
+| Run | `run` | Walk |
+| Jump | `jump` | Idle |
+| Crouch | `crouch` | Idle |
+| Wave | `wave` | Idle |
+| Sleep | `sleep` | Idle |
+| Celebrate | `celebrate` | Idle |
+
+### Fuzzy Clip Name Matching
+
+Not every 3D tool exports clean, lowercase clip names. If your GLB uses names like `Armature|idle` or `Character_walk`, the app performs **fuzzy substring matching** — it scans each clip name for the expected keyword (e.g., `idle`, `walk`) and binds to the first match it finds. You do not need to rename clips in your 3D editor as long as the keyword appears somewhere in the clip name.
+
+<Tip>
+  If you need to create or rig a character model from scratch, **Blender** (free, open-source) is an excellent choice for modeling, rigging, and exporting GLB files with embedded animations. For adding pre-built motion-capture animations to an existing rigged character, **Mixamo** (Adobe, free tier available) lets you download ready-to-use animation clips that you can bake into your GLB before importing into W-G-O NetNavi.
+</Tip>
+
+## Model Requirements at a Glance
+
+<AccordionGroup>
+  <Accordion title="File format" icon="file">
+    Use `.glb` (binary GLTF) whenever possible. A single `.glb` file keeps everything — geometry, materials, textures, and animations — in one portable package.
+  </Accordion>
+  <Accordion title="Textures" icon="image">
+    Embed all textures directly in the GLB. External texture files are not loaded. PBR materials (base color, metallic-roughness, normal map) are fully supported by the Filament renderer.
+  </Accordion>
+  <Accordion title="Animations" icon="play">
+    Name your animation clips using the keywords listed in the table above (`idle`, `walk`, `run`, `jump`, `crouch`, `wave`, `sleep`, `celebrate`). Fuzzy matching handles common prefixes like `Armature|`.
+  </Accordion>
+  <Accordion title="Orientation" icon="arrows-up-down-left-right">
+    The model should face the **+Z axis** (forward) in its default T-pose so it renders correctly on the avatar platform without manual rotation.
+  </Accordion>
+  <Accordion title="File size" icon="weight-scale">
+    Keep the GLB under **20 MB** for reliable loading on mid-range Android devices. Compress textures and reduce polygon count in your 3D editor if needed.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+Ready to bring your own character model into the app? Follow the step-by-step walkthrough to import your GLB file and verify your animations are working.
+
+<Card title="Import a Custom GLB Avatar" icon="upload" href="/importing-glb">
+  Learn how to import a `.glb` file for Wallas or Melynna, map your animation clips, and troubleshoot common issues.
+</Card>

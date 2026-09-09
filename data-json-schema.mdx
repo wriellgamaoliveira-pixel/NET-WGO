@@ -1,0 +1,166 @@
+---
+title: "data.json Schema for W-G-O NetNavi Update Packages"
+sidebarTitle: "data.json Schema"
+description: "Full schema reference for data.json inside a .wgo package — character XP, level, history events, missions, XP rules, and app settings fields."
+---
+
+The `data.json` file is the heart of every `.wgo` package — it carries all the information the app needs to update character XP, record history events, track missions, refresh the XP rule set, and adjust app settings. You only need to include the top-level keys you want to change; the app merges the incoming data with the existing state rather than replacing everything wholesale.
+
+## Top-Level Structure
+
+```json data.json — top-level structure
+{
+  "wallas": { ... },
+  "melynna": { ... },
+  "rules": [ ... ],
+  "settings": { ... }
+}
+```
+
+| Key | Type | Required | Purpose |
+|---|---|---|---|
+| `wallas` | object | No | Character data for Wallas |
+| `melynna` | object | No | Character data for Melynna |
+| `rules` | array | No | Replaces the XP rule set |
+| `settings` | array | No | Updates app-level settings |
+
+## Character Object
+
+The `wallas` and `melynna` keys share the same structure. Include only the character objects you are updating — omitting a key leaves that character's data untouched.
+
+```json Character Object
+{
+  "xp": 85,
+  "level": 0,
+  "history": [
+    {
+      "id": "evt-20260907-001",
+      "date": "2026-09-07",
+      "event": "lunch",
+      "label": "Almoço",
+      "xp": 5,
+      "imageRef": null
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission-bobs-goods-20260907",
+      "title": "Bob's Goods",
+      "status": "complete",
+      "totalXP": 50,
+      "imageRef": "images/wallas_bobs_goods_2026-09-07.jpg"
+    }
+  ]
+}
+```
+
+<Warning>
+  The app merges history entries by `id` — if an incoming event shares an ID with one already stored on the device, the duplicate is silently ignored and the existing entry is kept unchanged. Always generate unique IDs for new events. The recommended format is `evt-YYYYMMDD-NNN` (for example, `evt-20260907-001`, `evt-20260907-002`, and so on).
+</Warning>
+
+### Character Fields
+
+<ParamField body="xp" type="integer">
+  The character's total accumulated XP after all events in this package have been applied. Provide the new running total, not just the delta for this update.
+</ParamField>
+
+<ParamField body="level" type="integer">
+  The character's current level, calculated as `floor(totalXP / 1000)`. You are responsible for computing this correctly before writing the file — the app stores the value you provide rather than recalculating it on import.
+</ParamField>
+
+### History Entry Fields
+
+Each object in the `history` array records a single XP event.
+
+<ParamField body="history[].id" type="string" required>
+  A unique identifier for this event. Use the format `evt-YYYYMMDD-NNN` to guarantee uniqueness across packages (for example, `evt-20260907-003`). The app uses this ID for deduplication.
+</ParamField>
+
+<ParamField body="history[].date" type="string" required>
+  The date on which the event occurred, in ISO 8601 format (`YYYY-MM-DD`).
+</ParamField>
+
+<ParamField body="history[].event" type="string" required>
+  The event key that identifies the type of activity. This must match a key defined in the rules (for example, `lunch`, `bath`, `medicine`, `tv_hour`). Unknown event keys are stored but will not match any rule display name.
+</ParamField>
+
+<ParamField body="history[].label" type="string" required>
+  A human-readable display name for the event shown in the app's history list (for example, `"Almoço"` or `"Banho"`).
+</ParamField>
+
+<ParamField body="history[].xp" type="integer" required>
+  The XP change applied by this event. Use a positive integer for rewards and a negative integer for penalties.
+</ParamField>
+
+<ParamField body="history[].imageRef" type="string | null">
+  A relative path to an image file within the package (for example, `"images/wallas_lunch_2026-09-07.jpg"`), or `null` if no image is attached to this event. The path must match a file present in the `images/` folder of the archive when `includes.images` is `true`.
+</ParamField>
+
+### Mission Fields
+
+Each object in the `missions` array represents a named challenge or goal.
+
+<ParamField body="missions[].id" type="string" required>
+  A unique identifier for the mission (for example, `"mission-bobs-goods-20260907"`). The app uses this ID to update an existing mission or create a new one.
+</ParamField>
+
+<ParamField body="missions[].title" type="string" required>
+  The display name of the mission shown in the app (for example, `"Bob's Goods"`).
+</ParamField>
+
+<ParamField body="missions[].status" type="string" required>
+  The current state of the mission. Accepted values:
+
+  | Value | Meaning |
+  |---|---|
+  | `"pending"` | Mission has been created but not started |
+  | `"started"` | Mission is in progress |
+  | `"complete"` | Mission has been completed |
+</ParamField>
+
+<ParamField body="missions[].totalXP" type="integer" required>
+  The total XP awarded to the character upon mission completion.
+</ParamField>
+
+<ParamField body="missions[].imageRef" type="string | null">
+  A relative path to an image attached to this mission (for example, `"images/wallas_bobs_goods_2026-09-07.jpg"`), or `null` if none. Follows the same rules as `history[].imageRef`.
+</ParamField>
+
+## Rules Array
+
+The `rules` key is optional. When present, it **replaces** the entire XP rule set stored on the device — it does not merge with existing rules. Omit this key entirely if you only want to update character data.
+
+```json Rules Array
+[
+  { "event": "lunch", "label": "Almoço", "xp": 5, "type": "reward" },
+  { "event": "tv_hour", "label": "TV (por hora)", "xp": -1, "type": "penalty" }
+]
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `event` | string | The event key used in history entries |
+| `label` | string | Human-readable name shown in the app |
+| `xp` | integer | XP delta — positive for rewards, negative for penalties |
+| `type` | string | `"reward"` or `"penalty"` (used for display styling) |
+
+## Settings Object
+
+The `settings` key is optional. When present, the provided fields are merged into the current app settings — only the keys you include are updated.
+
+```json Settings Object
+{
+  "appLanguage": "pt-BR",
+  "xpPerLevel": 1000
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `appLanguage` | string | BCP 47 language tag for the app UI (for example, `"pt-BR"`) |
+| `xpPerLevel` | integer | XP required to advance one level (default: `1000`) |
+
+## Related
+
+- [The .wgo Package Format](/wgo-package-format) — how `data.json` fits inside the archive
+- [Generating Packages](/generating-packages) — step-by-step guide to building a complete `.wgo` file

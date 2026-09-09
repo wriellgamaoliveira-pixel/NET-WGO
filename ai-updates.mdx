@@ -1,0 +1,93 @@
+---
+title: "AI Updates Tab: Import and Apply Data Packages"
+sidebarTitle: "AI Updates"
+description: "Use the W-G-O NetNavi AI Updates tab to import .wgo packages, JSON data, or new GLB avatars from an AI assistant — with preview and safe rollback."
+---
+
+The AI Updates tab is the bridge between an external AI assistant (or a parent preparing data outside the app) and the live hero records inside W-G-O NetNavi. Instead of tapping in every XP event by hand, you can receive a structured file from an AI, import it here, review exactly what will change, and apply it with a single confirmation tap — all with an automatic backup standing by in case you want to undo.
+
+## What You Can Import
+
+The AI Updates tab surfaces seven action buttons, each targeting a different kind of update. Use the one that matches what you received.
+
+<CardGroup cols={2}>
+  <Card title="Import .wgo Package" icon="file-zipper">
+    Imports a complete `.wgo` ZIP file containing a `manifest.json`, a `data.json`, and optionally a GLB avatar model and image assets. Use this for full updates from an AI assistant. See [WGO Package Format](/wgo-package-format) for the schema.
+  </Card>
+  <Card title="Import JSON" icon="file-code">
+    Imports a `data.json` file on its own — XP events, rules, and history data only, without any avatar or media assets. See [Data JSON Schema](/data-json-schema) for field definitions.
+  </Card>
+  <Card title="Import GLB — Wallas" icon="cube">
+    Replaces the 3D avatar model for **Wallas** with a new GLB file. The previous model is backed up automatically before the swap.
+  </Card>
+  <Card title="Import GLB — Melynna" icon="cube">
+    Replaces the 3D avatar model for **Melynna** with a new GLB file. The previous model is backed up automatically before the swap.
+  </Card>
+  <Card title="Validate Package" icon="circle-check">
+    Checks a `.wgo` package against the schema before you apply it. Run this first if you want to confirm the file is well-formed without making any changes to your data.
+  </Card>
+  <Card title="Preview Diff" icon="code-compare">
+    Shows a human-readable summary of every change the package will make — XP deltas, new history entries, rule edits, avatar swaps, and more. Review this carefully before tapping Apply.
+  </Card>
+  <Card title="Apply Update" icon="bolt">
+    Applies the validated update after you explicitly confirm. The app saves a backup of the current state first, then writes the new data.
+  </Card>
+</CardGroup>
+
+---
+
+## Standard Import Flow
+
+Follow these steps every time you receive a `.wgo` package from an AI assistant or parent.
+
+<Steps>
+  <Step title="Tap Import .wgo Package and select your file">
+    Tap **Import .wgo Package** in the AI Updates tab. Your device's file picker opens. Navigate to the `.wgo` file you received and select it.
+  </Step>
+  <Step title="The app validates the package automatically">
+    W-G-O NetNavi checks the package structure and schema immediately after you select the file. If validation fails, a red error card appears with details about what is wrong — no data is changed. Fix the file and try again, or use **Validate Package** on its own to diagnose issues before importing.
+  </Step>
+  <Step title="Review the diff">
+    Once validation passes, the **Preview Diff** screen opens automatically. Read through the summary of changes: XP amounts added or removed for each hero, new history entries being inserted, any rule modifications, and whether the avatar GLB will be replaced. Take a moment here — this is your last easy checkpoint before anything changes.
+  </Step>
+  <Step title="Tap Apply Update and confirm">
+    If the diff looks correct, tap **Apply Update**. A confirmation dialog appears asking you to confirm the operation. Tap **Confirm** to proceed.
+  </Step>
+  <Step title="Your data is updated; previous state is backed up">
+    The app writes all changes from the package to the local database and saves a complete backup of the previous state in the background. A success banner confirms the update is live. You can now navigate to the Status Screen or Mission History to see the new data.
+  </Step>
+</Steps>
+
+---
+
+## Safety and Rollback
+
+Every import is designed so that you can always undo it. W-G-O NetNavi enforces a safety flow on every update path, not just the full package import.
+
+<AccordionGroup>
+  <Accordion title="Diff preview before every apply">
+    The app always shows you exactly what will change before writing anything. You cannot reach the Apply step without passing through the diff view first. There are no silent background updates.
+  </Accordion>
+  <Accordion title="Explicit user confirmation">
+    Tapping **Apply Update** opens a confirmation dialog. You must actively confirm — the dialog does not auto-dismiss or time out.
+  </Accordion>
+  <Accordion title="Automatic backup on every apply">
+    Immediately before writing any changes, the app snapshots the current database state and stores it as a timestamped backup. You do not need to do anything to trigger this — it happens automatically on every successful apply.
+  </Accordion>
+  <Accordion title="Restore Backup">
+    If something looks wrong after an update, tap **Restore Backup** in the AI Updates tab. The app lists available backup snapshots with timestamps. Select the snapshot you want and confirm — the app rolls back all data to that point. The avatar GLB files are restored along with the database if they were part of the backup.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  **Restore Backup replaces your current data entirely.** Any XP events or missions logged *after* the backup was taken will be lost once you restore. If you logged new data after the update and want to keep it, export or note those entries before restoring.
+</Warning>
+
+---
+
+## Schema References
+
+For the precise structure of the files accepted by this tab, see:
+
+- [WGO Package Format](/wgo-package-format) — the `.wgo` ZIP structure, `manifest.json` fields, and how assets are bundled.
+- [Data JSON Schema](/data-json-schema) — every field in `data.json`, including hero records, XP event types, and rule definitions.

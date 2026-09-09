@@ -1,0 +1,144 @@
+---
+title: "Example: Daily XP Update Package for Sept 7 2026"
+sidebarTitle: "Daily Update"
+description: "A complete worked example of a W-G-O NetNavi .wgo daily update package for September 7, 2026, covering all XP events for Wallas and Melynna."
+---
+
+September 7, 2026 was a landmark day in the NetNavi journey — both Wallas and Melynna completed the Bob's Goods mission, stacked a full set of daily routine events, and each finished the day with over 80 XP. This page walks you through every file inside a real daily update `.wgo` package so you understand exactly what the app receives, validates, and applies when you load it.
+
+## What Happened on September 7, 2026
+
+<CardGroup cols={2}>
+  <Card title="Wallas" icon="star">
+    Completed Bob's Goods (start + finish), plus all daily routines. Finished the day with **+85 XP** (cumulative total: **85 XP**).
+  </Card>
+  <Card title="Melynna" icon="star">
+    Completed Bob's Goods in one session, earned all daily routines, and received two small penalties after guidance. Finished with **+83 XP** (cumulative total: **83 XP**).
+  </Card>
+</CardGroup>
+
+---
+
+## XP Breakdown
+
+### Wallas — +85 XP
+
+<Note>
+  Wallas's Bob's Goods mission was logged as two separate events: a start bonus (+2) when he began the activity and a completion bonus (+48) when he finished it.
+</Note>
+
+| Event ID | Label | XP |
+|---|---|---|
+| evt-20260907-001 | Almoço (Lunch) | +5 |
+| evt-20260907-002 | Banho (Bath) | +5 |
+| evt-20260907-003 | Sonequinha (Nap) | +5 |
+| evt-20260907-004 | Bob's Goods — Início (Start) | +2 |
+| evt-20260907-005 | Bob's Goods — Finalização (Complete) | +48 |
+| evt-20260907-006 | Banho à noite (Evening Bath) | +5 |
+| evt-20260907-007 | Jantar (Dinner) | +5 |
+| evt-20260907-008 | Escovar dentes (Brush Teeth) | +5 |
+| evt-20260907-009 | Remédio (Medicine) | +5 |
+| | **Total** | **+85** |
+
+### Melynna — +83 XP
+
+<Note>
+  Both penalty events for Melynna — `penalty_shout` and `penalty_disobey` — were confirmed by a guardian before being logged. Penalties are only recorded after a guardian reviews the behaviour and consciously decides to apply them. Each penalty deducted 1 XP.
+</Note>
+
+| Event ID | Label | XP |
+|---|---|---|
+| evt-20260907-101 | Almoço (Lunch) | +5 |
+| evt-20260907-102 | Banho (Bath) | +5 |
+| evt-20260907-103 | Sonequinha (Nap) | +5 |
+| evt-20260907-104 | Bob's Goods — Completa (Complete) | +50 |
+| evt-20260907-105 | Penalidade — gritar após orientação | −1 |
+| evt-20260907-106 | Penalidade — desobedecer após orientação | −1 |
+| evt-20260907-107 | Banho à noite (Evening Bath) | +5 |
+| evt-20260907-108 | Escovar dentes (Brush Teeth) | +5 |
+| evt-20260907-109 | Jantar (Dinner) | +5 |
+| evt-20260907-110 | Remédio (Medicine) | +5 |
+| | **Total** | **+83** |
+
+---
+
+## The Package Files
+
+A daily update `.wgo` archive contains two required files: `manifest.json` and `data.json`. The manifest tells the app what to expect; `data.json` carries the actual event records for both characters.
+
+### manifest.json
+
+The manifest is the first file the app reads. It validates the schema version and checks the `includes` flags before touching anything else.
+
+```json manifest.json
+{
+  "schema": "wgo-netnavi",
+  "version": "1.0",
+  "created": "2026-09-07T22:30:00Z",
+  "description": "Daily update — 07/09/2026. Wallas and Melynna both completed Bob's Goods! Great day overall.",
+  "includes": {
+    "data": true,
+    "wallasMdl": false,
+    "melynnaMdl": false,
+    "images": false
+  }
+}
+```
+
+### data.json
+
+The `data.json` file holds the complete event history for both characters. The app appends each `history` entry to the character's existing log in chronological order, then recalculates totals.
+
+```json data.json
+{
+  "wallas": {
+    "xp": 85,
+    "level": 0,
+    "history": [
+      { "id": "evt-20260907-001", "date": "2026-09-07", "event": "lunch",               "label": "Almoço",                                      "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-002", "date": "2026-09-07", "event": "bath",                "label": "Banho",                                        "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-003", "date": "2026-09-07", "event": "nap",                 "label": "Sonequinha",                                   "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-004", "date": "2026-09-07", "event": "bobs_goods_start",    "label": "Bob's Goods — Início",                         "xp": 2,  "imageRef": null },
+      { "id": "evt-20260907-005", "date": "2026-09-07", "event": "bobs_goods_complete", "label": "Bob's Goods — Finalização",                    "xp": 48, "imageRef": null },
+      { "id": "evt-20260907-006", "date": "2026-09-07", "event": "bath_evening",        "label": "Banho à noite",                                "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-007", "date": "2026-09-07", "event": "dinner",              "label": "Jantar",                                       "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-008", "date": "2026-09-07", "event": "brush_teeth",         "label": "Escovar dentes",                               "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-009", "date": "2026-09-07", "event": "medicine",            "label": "Remédio",                                      "xp": 5,  "imageRef": null }
+    ]
+  },
+  "melynna": {
+    "xp": 83,
+    "level": 0,
+    "history": [
+      { "id": "evt-20260907-101", "date": "2026-09-07", "event": "lunch",                "label": "Almoço",                                          "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-102", "date": "2026-09-07", "event": "bath",                 "label": "Banho",                                           "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-103", "date": "2026-09-07", "event": "nap",                  "label": "Sonequinha",                                      "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-104", "date": "2026-09-07", "event": "bobs_goods_complete",  "label": "Bob's Goods — Completa",                          "xp": 50, "imageRef": null },
+      { "id": "evt-20260907-105", "date": "2026-09-07", "event": "penalty_shout",        "label": "Penalidade — gritar após orientação",              "xp": -1, "imageRef": null },
+      { "id": "evt-20260907-106", "date": "2026-09-07", "event": "penalty_disobey",      "label": "Penalidade — desobedecer após orientação",         "xp": -1, "imageRef": null },
+      { "id": "evt-20260907-107", "date": "2026-09-07", "event": "bath_evening",         "label": "Banho à noite",                                   "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-108", "date": "2026-09-07", "event": "brush_teeth",          "label": "Escovar dentes",                                  "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-109", "date": "2026-09-07", "event": "dinner",               "label": "Jantar",                                          "xp": 5,  "imageRef": null },
+      { "id": "evt-20260907-110", "date": "2026-09-07", "event": "medicine",             "label": "Remédio",                                         "xp": 5,  "imageRef": null }
+    ]
+  }
+}
+```
+
+---
+
+## Pack and Load the Package
+
+Once your two files are ready, pack them into a `.wgo` archive and transfer it to the device running NetNavi.
+
+```bash Create the .wgo package
+# On Linux/macOS
+zip -r daily-2026-09-07.zip manifest.json data.json
+mv daily-2026-09-07.zip daily-2026-09-07.wgo
+```
+
+After you create the file, open the NetNavi app, navigate to **Guardian Panel → Load Update**, and select `daily-2026-09-07.wgo`. The app validates the manifest, imports the events, and displays each character's new XP total on their profile screen.
+
+<Tip>
+  Always place both `manifest.json` and `data.json` in the **root** of the zip archive — not inside a subfolder. If the app reports a schema error on import, run `unzip -l daily-2026-09-07.wgo` to confirm the file paths are flat.
+</Tip>

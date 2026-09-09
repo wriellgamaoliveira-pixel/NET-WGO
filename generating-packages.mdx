@@ -1,0 +1,103 @@
+---
+title: "How to Generate a .wgo Update Package for W-G-O"
+sidebarTitle: "Generating Packages"
+description: "Step-by-step instructions for creating a valid .wgo update package for W-G-O NetNavi — for AI assistants and parents who manage XP data manually."
+---
+
+Generating a `.wgo` package is the primary way to push a daily update into W-G-O NetNavi. Whether you are an AI assistant compiling a day's worth of activities or a parent making a quick XP correction, the process is the same: write two JSON files, zip them up, rename the extension, and send the file to the device. This guide walks you through each step in order.
+
+<Tip>
+  If you are an AI assistant generating this package, always include a `description` field in `manifest.json` that summarises the day's highlights in plain language — for example, which missions were completed and how much XP each character earned. The parent reads this summary in the diff preview screen before confirming the import, so a clear description helps them understand what is about to change at a glance.
+</Tip>
+
+<Steps>
+  <Step title="Gather the day's XP events">
+    Before writing any files, collect the raw activity data for each character:
+
+    - List every activity each character completed and its corresponding XP value from the rule set.
+    - Note the date, event key (for example, `lunch`, `bath`, `medicine`), human-readable label, and XP delta for each activity.
+    - For penalties — such as screen time or a skipped task — use a **negative** XP value.
+    - Assign a unique ID to every event using the format `evt-YYYYMMDD-NNN`, incrementing the three-digit counter for each event on the same day (for example, `evt-20260907-001`, `evt-20260907-002`).
+  </Step>
+
+  <Step title="Calculate new totals">
+    With all events listed, update each character's running totals:
+
+    - Add every new XP delta to the character's current XP total to get the new `xp` value.
+    - Recalculate the character's level using the formula: `level = floor(totalXP / 1000)`.
+
+    Use these baselines if no earlier package has been applied:
+
+    | Character | Starting XP | Starting Level |
+    |---|---|---|
+    | Wallas | 85 | 0 |
+    | Melynna | 83 | 0 |
+  </Step>
+
+  <Step title="Write data.json">
+    Create `data.json` using the schema documented at [data.json Schema](/data-json-schema).
+
+    - Include a `wallas` object, a `melynna` object, or both — only include characters whose data has changed.
+    - Set the updated `xp` and `level` values you calculated in the previous step.
+    - Add each new activity as an entry in the `history` array, using the IDs, dates, event keys, labels, and XP deltas you gathered in Step 1.
+    - If any missions were started or completed today, include them in the `missions` array with the appropriate `status` and `totalXP`.
+    - Only include top-level keys (`rules`, `settings`) if you intend to update them — the app ignores keys that are absent, so there is no need to repeat unchanged data.
+  </Step>
+
+  <Step title="Write manifest.json">
+    Create `manifest.json` at the same level as `data.json`:
+
+    - Set `"schema": "wgo-netnavi"` and `"version": "1.0"` exactly as shown.
+    - Set `"created"` to the current moment as an ISO 8601 timestamp (for example, `"2026-09-07T22:00:00Z"`).
+    - Set `"includes.data": true` since you are including `data.json`.
+    - Set `"includes.wallasMdl": false` and `"includes.melynnaMdl": false` unless you are also bundling `.glb` avatar files.
+    - Set `"includes.images": true` only if you are adding an `images/` folder with attached photos.
+
+    ```json manifest.json
+    {
+      "schema": "wgo-netnavi",
+      "version": "1.0",
+      "created": "2026-09-07T22:00:00Z",
+      "description": "Daily update for Wallas and Melynna — September 7, 2026",
+      "includes": {
+        "data": true,
+        "wallasMdl": false,
+        "melynnaMdl": false,
+        "images": false
+      }
+    }
+    ```
+  </Step>
+
+  <Step title="Pack the .wgo archive">
+    Assemble the archive using any ZIP tool:
+
+    1. Place `manifest.json` and `data.json` directly at the root of a new ZIP archive — do **not** wrap them in a named subfolder.
+    2. If you are including mission images, create an `images/` subfolder inside the ZIP and add the image files there. Make sure each `imageRef` field in `data.json` exactly matches the relative path (for example, `"images/wallas_bobs_goods_2026-09-07.jpg"`).
+    3. If you are replacing an avatar, add `wallas.glb` and/or `melynna.glb` at the root level, and set the corresponding `includes` flags to `true` in `manifest.json`.
+    4. Save the archive, then **rename the file extension from `.zip` to `.wgo`** (for example, `daily-update-20260907.wgo`).
+
+    The resulting file is your complete `.wgo` package.
+  </Step>
+
+  <Step title="Send to device">
+    Transfer the `.wgo` file to the Android device using any convenient method — email attachment, a messaging app, ADB file push, or a direct file transfer app all work equally well.
+
+    Once the file is on the device:
+
+    1. Open the **W-G-O NetNavi** app.
+    2. Navigate to the **AI Updates** tab.
+    3. Tap **Import .wgo Package**.
+    4. Select the `.wgo` file from your device storage.
+    5. Review the diff preview — verify the XP changes, new history entries, and any mission updates look correct.
+    6. Tap **Confirm** to apply the update.
+
+    The app automatically creates a backup of the current state before applying the import, so you can roll back if anything looks wrong.
+  </Step>
+</Steps>
+
+## Related
+
+- [The .wgo Package Format](/wgo-package-format) — full manifest schema and file structure reference
+- [data.json Schema](/data-json-schema) — detailed field-by-field reference for `data.json`
+- [Importing Updates](/importing-updates) — how to use the app's import screens

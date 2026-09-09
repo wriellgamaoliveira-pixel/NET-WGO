@@ -1,47 +1,79 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Get Started with W-G-O NetNavi in 5 Steps"
+sidebarTitle: "Quick Start"
+description: "Set up W-G-O NetNavi, select a character, log your first XP event, and import an AI-generated daily update package in under 10 minutes."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+W-G-O NetNavi is a gamified Android app that turns everyday activities into XP-earning adventures for Wallas and Melynna. This guide walks you through everything a parent or guardian needs to do — from installing the app to logging your child's first mission event — so your family is up and running in just a few minutes.
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Build or Install the App">
+    W-G-O NetNavi is built with **Kotlin + Jetpack Compose** in Android Studio, so you can either compile it from source or sideload a pre-built APK onto your device.
 
-    ```bash
-    npm install your-package
-    ```
+    Before you begin, confirm your device meets the minimum requirements:
+    - **Android version:** 8.0 (API level 26) or higher
+    - **Free storage:** ~50 MB
+
+    **To build from source:**
+    1. Open the project folder in Android Studio.
+    2. Wait for Gradle to finish syncing all dependencies.
+    3. Select your target device or emulator from the toolbar, then click **Run ▶**.
+
+    <Note>
+      If you received a pre-built APK instead, go to **Android Settings → Security** and enable **Install from unknown sources**, then tap the APK file to begin installation.
+    </Note>
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
 
-    ```bash
-    your-cli init
-    ```
+  <Step title="Select a Character">
+    Once the app launches, you land on the main screen where both characters are waiting. Tap **Wallas** (blue) or **Melynna** (pink) to enter their personal dashboard.
+
+    Each character's dashboard displays:
+    - **XP Total** — the cumulative points earned so far
+    - **Level Badge** — the character's current level
+    - **Progress Bar** — how close they are to the next level
+    - **3D Avatar** — a visual representation of the chosen character
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
 
-    ```bash
-    your-cli start
-    ```
+  <Step title="Log Your First XP Event">
+    With a character selected, you're ready to record your child's first activity. Tap the **+** button anywhere on the dashboard, or navigate to the **Actions** panel from the bottom navigation bar.
+
+    Follow these steps to log the event:
+    1. Browse or search the activity list and select the relevant action — for example, **Lunch** awards **+5 XP**.
+    2. Tap **Confirm** to save the entry.
+    3. Watch the progress bar update in real time as the XP is added and written to local storage immediately.
+
+    <CodeGroup>
+      ```json Quick XP Event
+      {
+        "character": "wallas",
+        "event": "lunch",
+        "xp": 5,
+        "date": "2026-09-07",
+        "note": "Finished all the food!"
+      }
+      ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="View Mission History">
+    Tap the **History** tab in the bottom navigation bar to review every event that has been logged for the selected character.
+
+    Each entry in the history list shows:
+    - The **activity name** and **XP value** awarded
+    - A **timestamp** indicating when the event was recorded
+    - An optional **image attachment** — for example, a photo of a drawing from Bob's Goods or another activity keepsake
+  </Step>
+
+  <Step title="Import an AI Update (Optional)">
+    W-G-O NetNavi supports batch data updates through the **AI Updates** tab, letting you apply a full day's worth of events in one go.
+
+    1. Tap the **AI Updates** tab in the bottom navigation bar.
+    2. Choose **Import .wgo Package** to load a bundled update file, or **Import JSON** to paste or load raw JSON data.
+    3. Review the **diff preview** to confirm exactly what will change.
+    4. Tap **Confirm** — your character's data updates instantly.
+
+    <Tip>
+      You can ask any AI assistant (such as ChatGPT or Gemini) to generate a complete daily update for your child as a `.wgo` package. Describe the day's activities in plain language and ask it to format the output using the W-G-O NetNavi JSON schema — then import the file directly into the app.
+    </Tip>
   </Step>
 </Steps>
-
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
-
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>

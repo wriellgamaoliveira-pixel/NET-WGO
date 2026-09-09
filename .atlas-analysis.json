@@ -1,13 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "W-G-O NetNavi",
+  "projectType": "saas",
+  "projectName": "W-G-O NetNavi",
+  "projectDescription": "A gamified family XP tracker and Android app for children Wallas and Melynna, featuring 3D avatars, mission history, XP rules, level progression, and AI-driven update packages.",
   "theme": "almond",
-  "colors": {
-    "primary": "#15a8ff",
-    "light": "#e0f4ff",
-    "dark": "#050b18"
-  },
-  "favicon": "/favicon.svg",
+  "primaryColor": "#15a8ff",
+  "lightColor": "#e0f4ff",
+  "darkColor": "#050b18",
   "navigation": {
     "tabs": [
       {
@@ -69,10 +67,25 @@
       }
     ]
   },
-  "navbar": {
-    "primary": {
-      "type": "github",
-      "href": "https://github.com/wgo-netnavi/app"
-    }
-  }
+  "keyFeatures": [
+    "Dual-character XP tracking for Wallas and Melynna",
+    "Level progression system (1 level per 1,000 XP)",
+    "Rule-based XP rewards and penalties",
+    "3D GLB/GLTF avatar viewer with animation mapping",
+    "Mission history with image attachments",
+    "AI-generated .wgo update package import",
+    "Offline-first with Room + DataStore persistence",
+    "Backup and restore before applying updates",
+    "Motivational villains: Preguix, Desanimax, Distrax",
+    "Android native (Kotlin + Jetpack Compose + SceneView/Filament)"
+  ],
+  "publicApiSurface": [
+    ".wgo package format (ZIP: manifest.json + data.json + optional GLB/images)",
+    "manifest.json schema (version, schema fields)",
+    "data.json schema (xp, level, history, rules, missions, settings)",
+    "GLB import per character (wallas.glb / melynna.glb)",
+    "JSON-only update import",
+    "Update validation, preview diff, and confirmation flow",
+    "Backup/restore local state"
+  ]
 }

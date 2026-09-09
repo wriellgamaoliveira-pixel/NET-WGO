@@ -1,0 +1,87 @@
+---
+title: "Mission History: Browse and Attach Mission Records"
+sidebarTitle: "Mission History"
+description: "The Mission History screen in W-G-O NetNavi shows a full timeline of XP events for each hero, with support for attaching photos and drawings."
+---
+
+The Mission History screen gives you a complete, scrollable timeline of every XP event ever logged for a hero — from a quick bath entry worth a few points all the way to a multi-step Bob's Goods mission with a drawing attached. Open it any time to review the journey, verify XP totals, or add a photo to an entry you logged earlier.
+
+## Opening Mission History
+
+Tap the **History 🕘** tab in the bottom tab bar from any main screen. The list loads automatically for whichever hero is currently selected. To view a different hero's history, switch character tabs at the top of the screen first.
+
+---
+
+## Reading the Timeline
+
+Each row in the timeline represents one logged XP event. Entries appear in **chronological order**, oldest at the top and newest at the bottom.
+
+<CardGroup cols={1}>
+  <Card title="Mission Entry Fields" icon="list-check">
+
+| Field | Description |
+|-------|-------------|
+| **Title** | The name of the mission or event (e.g., *Lunch*, *Bath*, *Bob's Goods — Complete*) |
+| **Date & Time** | When the event was logged, pulled from the device clock at save time |
+| **XP Value** | Points awarded or deducted — displayed in **green** for gains and **red** for penalties |
+| **Image Attachment** | An optional thumbnail that appears when a photo has been linked to the entry |
+
+  </Card>
+</CardGroup>
+
+Entries are stored locally in the app's **Room database**, so they remain available offline and persist across app restarts.
+
+---
+
+## Bob's Goods Mission Example
+
+Bob's Goods is a multi-step creative mission where each step earns separate XP. Here is what the timeline looks like for a session completed on 2026-09-07:
+
+<Steps>
+  <Step title="Bob's Goods — Start">
+    **XP:** +2 &nbsp;|&nbsp; **Date:** 2026-09-07
+
+    This entry is created automatically when the mission is opened and the *Start* action is logged. It marks the beginning of the creative session.
+  </Step>
+  <Step title="Bob's Goods — Complete">
+    **XP:** +48 &nbsp;|&nbsp; **Date:** 2026-09-07 &nbsp;|&nbsp; 📷 *Drawing photo attached*
+
+    This entry is logged when the mission is marked complete. The bulk of the XP reward appears here. A photo of the finished drawing can be attached right away or added later.
+  </Step>
+</Steps>
+
+The two entries together total **+50 XP** for the Bob's Goods session, clearly visible in the timeline.
+
+---
+
+## Adding Image Attachments
+
+You can attach a photo to any mission entry at any time — whether moments after logging it or weeks later. This is especially useful for missions like Bob's Goods, where the physical drawing only exists after the session is over.
+
+<Tip>
+  Photograph the children's drawings after each Bob's Goods session to build a visual portfolio inside the app. Over time, the Mission History screen becomes a gallery of their creative work alongside the XP record.
+</Tip>
+
+### How to Attach a Photo
+
+<Steps>
+  <Step title="Open the entry detail view">
+    Tap on any mission entry row in the timeline. The detail view slides in, showing the full entry data.
+  </Step>
+  <Step title="Tap the image icon">
+    Tap the **image icon** (📷) in the detail view. Choose **Gallery** to import an existing photo from your device, or **Camera** to take a new photo on the spot.
+  </Step>
+  <Step title="Confirm the attachment">
+    After selecting or capturing the image, the app attaches it to the entry and displays a thumbnail in both the detail view and the timeline row. The image is saved locally on-device.
+  </Step>
+</Steps>
+
+<Note>
+  Images are stored entirely on-device inside the app's private storage. They are not uploaded to any server. If you uninstall the app, attached images are removed along with the rest of the local data — export or back up important photos before uninstalling.
+</Note>
+
+---
+
+## Storage and Privacy
+
+All mission history data lives in the app's **local Room database** on the device. No account, login, or internet connection is required to view or update the timeline. XP events written by the AI Updates import flow appear in the same list alongside manually logged entries, so the history is always complete regardless of how the data arrived.
